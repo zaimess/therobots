@@ -1,10 +1,13 @@
 import numpy as np
-import matplotlib.pyplot
+import matplotlib.pyplot as m
 
 
 # Create array to store sensor values
-backLegSensorValues = np.zeros(10000)
+backLegSensorValues = np.load("data/BackLegSensorValues.npy")
+frontLegSensorValues = np.load("data/FrontLegSensorValues.npy")
 
-np.load('data/backLegSensorValues.npy')
 
-print(backLegSensorValues)
+m.plot(backLegSensorValues, label='Back Leg Sensor Values', linewidth=3)
+m.plot(frontLegSensorValues, label='Front Leg Sensor Values')
+m.legend()
+m.show()

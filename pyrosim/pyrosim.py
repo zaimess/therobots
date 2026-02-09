@@ -24,6 +24,7 @@ NNDF_FILETYPE   = 2
 
 # global linkNamesToIndices
 
+
 def End():
 
     if filetype == SDF_FILETYPE:
@@ -38,9 +39,11 @@ def End():
 
     f.close()
 
+
 def End_Model():
 
     model.Save_End_Tag(f)
+
 
 def Get_Touch_Sensor_Value_For_Link(linkName):
 
@@ -49,6 +52,10 @@ def Get_Touch_Sensor_Value_For_Link(linkName):
     desiredLinkIndex = linkNamesToIndices[linkName]
 
     pts = p.getContactPoints()
+
+    if pts == None:
+
+        return -1
 
     for pt in pts:
 
@@ -59,6 +66,7 @@ def Get_Touch_Sensor_Value_For_Link(linkName):
             touchValue = 1.0
 
     return touchValue
+
 
 def Prepare_Link_Dictionary(bodyID):
 
@@ -148,7 +156,7 @@ def Send_Sensor_Neuron(name,linkName):
 
     f.write('    <neuron name = "' + str(name) + '" type = "sensor" linkName = "' + linkName + '" />\n')
 
-def Send_Sphere(name="default",pos=[0,0,0],radius=1):
+def Send_Sphere(name="default",pos=[0, 0, 0],radius=1):
 
     global availableLinkIndex
 
