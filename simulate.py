@@ -18,6 +18,21 @@ pyrosim.Prepare_To_Simulate(robotId)
 backLegSensorValues = np.zeros(1000)
 frontLegSensorValues = np.zeros(1000)
 
+# Motor control angle variables
+BL_amplitude = np.pi / 4
+BL_frequency = 8
+BL_phastOffSset = 30
+
+FL_amplitude = np.pi / 4
+FL_frequency = 8
+FL_phastOffSset = 0
+
+# Create a vector to store sinusoidal values
+x = np.linspace(0, 2 * np.pi, 1000)
+BL_targetAngles = BL_amplitude*np.sin(BL_frequency*x + BL_phastOffSset)
+# np.save("data/targetAngles.npy", targetAngles)
+y = np.linspace(0, 2 * np.pi, 1000)
+FL_targetAngles = FL_amplitude*np.sin(FL_frequency*y + FL_phastOffSset)
 
 for i in range(1000):
     p.stepSimulation()
@@ -35,7 +50,7 @@ for i in range(1000):
 
         controlMode=p.POSITION_CONTROL,
 
-        targetPosition=random.uniform(-np.pi/2, np.pi/2),
+        targetPosition=BL_targetAngles[i],
 
         maxForce=500)
 
@@ -48,7 +63,7 @@ for i in range(1000):
 
         controlMode=p.POSITION_CONTROL,
 
-        targetPosition=random.uniform(-np.pi/2, np.pi/2),
+        targetPosition=FL_targetAngles[i],
 
         maxForce=500)
 
