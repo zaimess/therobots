@@ -4,7 +4,7 @@ import numpy as np
 gravity = -9.8
 
 # time step
-tstep = 1000
+tstep = 200
 
 # Actual motor control angle variables...?
 amplitude = np.pi / 4
