@@ -10,7 +10,7 @@ from robot import ROBOT
 
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, solutionID):
         if directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
         else:
@@ -20,7 +20,7 @@ class SIMULATION:
         p.setGravity(0, 0, c.gravity)
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(solutionID)
 
     def run(self):
         for t in range(c.tstep):
@@ -34,8 +34,8 @@ class SIMULATION:
             if p.getConnectionInfo()['connectionMethod'] == p.GUI:
                 time.sleep(1 / 60)
 
-    def Get_Fitness(self):
-        self.robot.Get_Fitness()
+    def Get_Fitness(self, solutionID):
+        self.robot.Get_Fitness(solutionID)
 
     def __del__(self):
         p.disconnect()
