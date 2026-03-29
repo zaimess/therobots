@@ -14,23 +14,12 @@ class SOLUTION:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        # os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID}')
-        #
-        # fitnessFileName = f"fitness{self.myID}.txt"
-        #
-        # while not os.path.exists(fitnessFileName):
-        #     time.sleep(0.01)
-        #
-        # with open(fitnessFileName, "r") as f:
-        #     self.fitness = float(f.read())
-        # self.fitness = float(fitnessFile.read())
-        # fitnessFile.close()
 
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID}')
+        os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID} > NUL 2>&1')
 
     def Wait_For_Simulation_To_End(self):
         fitnessFileName = f"fitness{self.myID}.txt"

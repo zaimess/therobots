@@ -4,7 +4,7 @@ import numpy as np
 gravity = -32.2
 
 # time step
-tstep = 250
+tstep = 500
 
 # Actual motor control angle variables...?
 amplitude = np.pi / 4
@@ -24,7 +24,7 @@ FL_phastOffSset = 0
 mforce = 500
 
 # Number of Generations
-numberOfGenerations = 30
+numberOfGenerations = 10
 
 # Population Size
 populationSize = 10
