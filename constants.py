@@ -7,7 +7,7 @@ gravity = -32.2
 tstep = 1000
 
 # Actual motor control angle variables...?
-amplitude = np.pi / 4
+amplitude = np.pi / 2
 frequency = 10
 phaseOffSet = 0
 
@@ -24,7 +24,7 @@ FL_phastOffSset = 0
 mforce = 500
 
 # Number of Generations
-numberOfGenerations = 5
+numberOfGenerations = 100
 
 # Population Size
 populationSize = 5
@@ -34,4 +34,4 @@ numSensorNeurons = 4
 numMotorNeurons = 8
 
 # Motor Joint Range
-motorJointRange = .4
+motorJointRange = .7
