@@ -4,7 +4,7 @@ import numpy as np
 gravity = -32.2
 
 # time step
-tstep = 250
+tstep = 1000
 
 # Actual motor control angle variables...?
 amplitude = np.pi / 4
@@ -24,7 +24,14 @@ FL_phastOffSset = 0
 mforce = 500
 
 # Number of Generations
-numberOfGenerations = 30
+numberOfGenerations = 5
 
 # Population Size
-populationSize = 10
+populationSize = 5
+
+# Neuron Amounts
+numSensorNeurons = 4
+numMotorNeurons = 8
+
+# Motor Joint Range
+motorJointRange = .4

@@ -142,11 +142,11 @@ def Send_Cube(name="default",pos=[0,0,0],size=[1,1,1]):
 
     availableLinkIndex = availableLinkIndex + 1
 
-def Send_Joint(name,parent,child,type,position):
+def Send_Joint(name,parent,child,type,position,jointAxis):
 
     joint = JOINT(name,parent,child,type,position)
 
-    joint.Save(f)
+    joint.Save(f, jointAxis)
 
 def Send_Motor_Neuron(name,jointName):
 
@@ -186,7 +186,8 @@ def Send_Sphere(name="default",pos=[0, 0, 0],radius=1):
 
 def Send_Synapse( sourceNeuronName , targetNeuronName , weight ):
 
-    f.write('    <synapse sourceNeuronName = "' + str(sourceNeuronName) + '" targetNeuronName = "' + str(targetNeuronName) + '" weight = "' + str(weight) + '" />\n')
+    f.write('    <synapse sourceNeuronName = "' + str(sourceNeuronName) + '" targetNeuronName = "' +
+            str(targetNeuronName) + '" weight = "' + str(weight) + '" />\n')
 
  
 def Set_Motor_For_Joint(bodyIndex,jointName,controlMode,targetPosition,maxForce):
