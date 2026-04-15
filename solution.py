@@ -13,8 +13,8 @@ class SOLUTION:
 
         # Milestone 1 body parameters
         # Change these manually to prove the robot body changes.
-        self.upperLegLength = 1
-        self.lowerLegLength = 1
+        self.upperLegLength = 0.2 + np.random.rand(c.numUpperLegs) * 1.8
+        self.lowerLegLength = 0.2 + np.random.rand(c.numLowerLegs) * 1.8
 
     def Evaluate(self, directOrGUI):
         self.Create_World()
@@ -26,6 +26,7 @@ class SOLUTION:
         self.Create_Body()
         self.Create_Brain()
         os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID} > NUL 2>&1')
+        # os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID}')
 
     def Wait_For_Simulation_To_End(self):
         fitnessFileName = f"fitness{self.myID}.txt"
@@ -44,7 +45,7 @@ class SOLUTION:
         pyrosim.End()
 
     def Create_Body(self):
-        pyrosim.Start_URDF("body.urdf")
+        pyrosim.Start_URDF(f"body{self.myID}.urdf")
 
         # Torso
         pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1], size=[1, 1, 1])
@@ -63,8 +64,8 @@ class SOLUTION:
         # Upper leg extends in negative y from the hip
         pyrosim.Send_Cube(
             name="BackLeg",
-            pos=[0, -self.upperLegLength / 2, 0],
-            size=[0.2, self.upperLegLength, 0.2]
+            pos=[0, -self.upperLegLength[0] / 2, 0],
+            size=[0.2, self.upperLegLength[0], 0.2]
         )
 
         # Knee joint at end of upper leg
@@ -73,15 +74,15 @@ class SOLUTION:
             parent="BackLeg",
             child="BackLowerLeg",
             type="revolute",
-            position=[0, -self.upperLegLength, 0],
+            position=[0, -self.upperLegLength[0], 0],
             jointAxis="1 0 0"
         )
 
         # Lower leg extends downward in z
         pyrosim.Send_Cube(
             name="BackLowerLeg",
-            pos=[0, 0, -self.lowerLegLength / 2],
-            size=[0.2, 0.2, self.lowerLegLength]
+            pos=[0, 0, -self.lowerLegLength[0] / 2],
+            size=[0.2, 0.2, self.lowerLegLength[0]]
         )
 
         # ----------- FrontLeg -------------
@@ -97,8 +98,8 @@ class SOLUTION:
         # Upper leg extends in positive y
         pyrosim.Send_Cube(
             name="FrontLeg",
-            pos=[0, self.upperLegLength / 2, 0],
-            size=[0.2, self.upperLegLength, 0.2]
+            pos=[0, self.upperLegLength[1] / 2, 0],
+            size=[0.2, self.upperLegLength[1], 0.2]
         )
 
         pyrosim.Send_Joint(
@@ -106,14 +107,14 @@ class SOLUTION:
             parent="FrontLeg",
             child="FrontLowerLeg",
             type="revolute",
-            position=[0, self.upperLegLength, 0],
+            position=[0, self.upperLegLength[1], 0],
             jointAxis="1 0 0"
         )
 
         pyrosim.Send_Cube(
             name="FrontLowerLeg",
-            pos=[0, 0, -self.lowerLegLength / 2],
-            size=[0.2, 0.2, self.lowerLegLength]
+            pos=[0, 0, -self.lowerLegLength[1] / 2],
+            size=[0.2, 0.2, self.lowerLegLength[1]]
         )
 
         # ----------- LeftLeg -------------
@@ -129,8 +130,8 @@ class SOLUTION:
         # Upper leg extends in negative x
         pyrosim.Send_Cube(
             name="LeftLeg",
-            pos=[-self.upperLegLength / 2, 0, 0],
-            size=[self.upperLegLength, 0.2, 0.2]
+            pos=[-self.upperLegLength[2] / 2, 0, 0],
+            size=[self.upperLegLength[2], 0.2, 0.2]
         )
 
         pyrosim.Send_Joint(
@@ -138,14 +139,14 @@ class SOLUTION:
             parent="LeftLeg",
             child="LeftLowerLeg",
             type="revolute",
-            position=[-self.upperLegLength, 0, 0],
+            position=[-self.upperLegLength[2], 0, 0],
             jointAxis="0 1 0"
         )
 
         pyrosim.Send_Cube(
             name="LeftLowerLeg",
-            pos=[0, 0, -self.lowerLegLength / 2],
-            size=[0.2, 0.2, self.lowerLegLength]
+            pos=[0, 0, -self.lowerLegLength[2] / 2],
+            size=[0.2, 0.2, self.lowerLegLength[2]]
         )
 
         # ----------- RightLeg -------------
@@ -161,8 +162,8 @@ class SOLUTION:
         # Upper leg extends in positive x
         pyrosim.Send_Cube(
             name="RightLeg",
-            pos=[self.upperLegLength / 2, 0, 0],
-            size=[self.upperLegLength, 0.2, 0.2]
+            pos=[self.upperLegLength[3] / 2, 0, 0],
+            size=[self.upperLegLength[3], 0.2, 0.2]
         )
 
         pyrosim.Send_Joint(
@@ -170,14 +171,14 @@ class SOLUTION:
             parent="RightLeg",
             child="RightLowerLeg",
             type="revolute",
-            position=[self.upperLegLength, 0, 0],
+            position=[self.upperLegLength[3], 0, 0],
             jointAxis="0 1 0"
         )
 
         pyrosim.Send_Cube(
             name="RightLowerLeg",
-            pos=[0, 0, -self.lowerLegLength / 2],
-            size=[0.2, 0.2, self.lowerLegLength]
+            pos=[0, 0, -self.lowerLegLength[3] / 2],
+            size=[0.2, 0.2, self.lowerLegLength[3]]
         )
 
         pyrosim.End()
@@ -217,5 +218,13 @@ class SOLUTION:
 
         self.weights[randomRow, randomColumn] = random.random() * 2 - 1
 
+        randomUpperLeg = random.randint(0, c.numUpperLegs - 1)
+        randomLowerLeg = random.randint(0, c.numLowerLegs - 1)
+
+        self.upperLegLength[randomUpperLeg] = 0.2 + random.random() * 1.8
+        self.lowerLegLength[randomLowerLeg] = 0.2 + random.random() * 1.8
+
+        print("upper:", self.upperLegLength)
+        print("lower:", self.lowerLegLength)
     def Set_ID(self, myID):
         self.myID = myID
