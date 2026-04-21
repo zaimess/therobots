@@ -224,7 +224,6 @@ class SOLUTION:
         self.upperLegLength[randomUpperLeg] = 0.2 + random.random() * 1.8
         self.lowerLegLength[randomLowerLeg] = 0.2 + random.random() * 1.8
 
-        print("upper:", self.upperLegLength)
-        print("lower:", self.lowerLegLength)
+
     def Set_ID(self, myID):
         self.myID = myID

@@ -20,10 +20,17 @@ class PARALLEL_HILL_CLIMBER:
     def Evolve(self):
         self.Evaluate(self.parents)
 
+        print("Showing initial best robot...")
+        self.Show_Best()
+        input("Close the GUI window, then press Enter to begin evolution...")
+
         for currentGeneration in range(c.numberOfGenerations):
+            print("Generation", currentGeneration)
             self.Evolve_For_One_Generation()
 
+        print("Showing final best robot...")
         self.Show_Best()
+        input("Close the GUI window, then press Enter to finish...")
 
     def Evaluate(self, solutions):
         for i in solutions:
@@ -58,7 +65,14 @@ class PARALLEL_HILL_CLIMBER:
     def Print(self):
         print()
         for key in self.parents:
-            print(self.parents[key].fitness, self.children[key].fitness)
+            print(
+                "parent fitness:", self.parents[key].fitness,
+                "child fitness:", self.children[key].fitness,
+                "parent upper:", self.parents[key].upperLegLength,
+                "child upper:", self.children[key].upperLegLength,
+                "parent lower:", self.parents[key].lowerLegLength,
+                "child lower:", self.children[key].lowerLegLength
+            )
         print()
 
     def Show_Best(self):

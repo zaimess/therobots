@@ -24,7 +24,7 @@ FL_phastOffSset = 0
 mforce = 500
 
 # Number of Generations
-numberOfGenerations = 10
+numberOfGenerations = 150
 
 # Population Size
 populationSize = 5
