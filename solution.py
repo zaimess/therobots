@@ -30,14 +30,26 @@ class SOLUTION:
 
     def Wait_For_Simulation_To_End(self):
         fitnessFileName = f"fitness{self.myID}.txt"
+        startTime = time.time()
+        timeout = 30  # seconds
 
-        while not os.path.exists(fitnessFileName):
+        while True:
+            try:
+                if os.path.exists(fitnessFileName):
+                    with open(fitnessFileName, "r") as f:
+                        contents = f.read().strip()
+
+                    if contents != "":
+                        self.fitness = float(contents)
+                        os.remove(fitnessFileName)
+                        return
+            except (PermissionError, ValueError):
+                pass
+
+            if time.time() - startTime > timeout:
+                raise TimeoutError(f"Timed out waiting for {fitnessFileName}")
+
             time.sleep(0.01)
-
-        with open(fitnessFileName, "r") as f:
-            self.fitness = float(f.read())
-
-        os.system(f"del fitness{self.myID}.txt")
 
     def Create_World(self):
         pyrosim.Start_SDF("world.sdf")

@@ -58,4 +58,4 @@ class ROBOT:
         with open(f"tmp{solutionID}.txt", "w") as f:
             f.write(str(xPosition))
 
-        os.rename(f"tmp{solutionID}.txt", f"fitness{solutionID}.txt")
+        os.replace(f"tmp{solutionID}.txt", f"fitness{solutionID}.txt")

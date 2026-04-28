@@ -33,6 +33,10 @@ class PARALLEL_HILL_CLIMBER:
         input("Close the GUI window, then press Enter to finish...")
 
     def Evaluate(self, solutions):
+        # for i in solutions:
+        #     solutions[i].Start_Simulation("DIRECT")
+        #     solutions[i].Wait_For_Simulation_To_End()
+
         for i in solutions:
             solutions[i].Start_Simulation("DIRECT")
 
