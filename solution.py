@@ -11,10 +11,12 @@ class SOLUTION:
         self.weights = np.random.rand(c.numSensorNeurons, c.numMotorNeurons) * 2 - 1
         self.myID = myID
 
-        # Milestone 1 body parameters
-        # Change these manually to prove the robot body changes.
-        self.upperLegLength = 0.2 + np.random.rand(c.numUpperLegs) * 1.8
-        self.lowerLegLength = 0.2 + np.random.rand(c.numLowerLegs) * 1.8
+        if c.evolveBody:
+            self.upperLegLength = 0.3 + np.random.rand(c.numUpperLegs) * 1.2
+            self.lowerLegLength = 0.3 + np.random.rand(c.numLowerLegs) * 1.2
+        else:
+            self.upperLegLength = np.ones(c.numUpperLegs)
+            self.lowerLegLength = np.ones(c.numLowerLegs)
 
     def Evaluate(self, directOrGUI):
         self.Create_World()
@@ -25,8 +27,19 @@ class SOLUTION:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID} > NUL 2>&1')
-        # os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID}')
+        # os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID} > NUL 2>&1')
+        os.system(f'start /B "" python simulate.py {directOrGUI} {self.myID}')
+
+    # def Wait_For_Simulation_To_End(self):
+    #     fitnessFileName = f"fitness{self.myID}.txt"
+    #
+    #     while not os.path.exists(fitnessFileName):
+    #         time.sleep(0.01)
+    #
+    #     with open(fitnessFileName, "r") as f:
+    #         self.fitness = float(f.read())
+    #
+    #     os.system(f"del fitness{self.myID}.txt")
 
     def Wait_For_Simulation_To_End(self):
         fitnessFileName = f"fitness{self.myID}.txt"
@@ -34,14 +47,22 @@ class SOLUTION:
         while not os.path.exists(fitnessFileName):
             time.sleep(0.01)
 
-        with open(fitnessFileName, "r") as f:
-            self.fitness = float(f.read())
+        # Retry loop to handle Windows file locking during rename
+        for _ in range(50):  # up to 0.5 seconds of retries
+            try:
+                with open(fitnessFileName, "r") as f:
+                    self.fitness = float(f.read())
+                break
+            except (PermissionError, ValueError):
+                time.sleep(0.01)
+        else:
+            raise RuntimeError(f"Could not read {fitnessFileName} after retries")
 
         os.system(f"del fitness{self.myID}.txt")
 
     def Create_World(self):
-        pyrosim.Start_SDF("world.sdf")
-        pyrosim.Send_Cube(name="Box", pos=[-4, 3, 0.5], size=[1, 1, 1])
+        pyrosim.Start_SDF(f"world{self.myID}.sdf")
+        # pyrosim.Send_Cube(name="Box", pos=[-4, 3, 0.5], size=[1, 1, 1])
         pyrosim.End()
 
     def Create_Body(self):
@@ -218,12 +239,12 @@ class SOLUTION:
 
         self.weights[randomRow, randomColumn] = random.random() * 2 - 1
 
-        randomUpperLeg = random.randint(0, c.numUpperLegs - 1)
-        randomLowerLeg = random.randint(0, c.numLowerLegs - 1)
+        if c.evolveBody:
+            randomUpperLeg = random.randint(0, c.numUpperLegs - 1)
+            randomLowerLeg = random.randint(0, c.numLowerLegs - 1)
 
-        self.upperLegLength[randomUpperLeg] = 0.2 + random.random() * 1.8
-        self.lowerLegLength[randomLowerLeg] = 0.2 + random.random() * 1.8
-
+            self.upperLegLength[randomUpperLeg] = 0.3 + random.random() * 1.2
+            self.lowerLegLength[randomLowerLeg] = 0.3 + random.random() * 1.2
 
     def Set_ID(self, myID):
         self.myID = myID

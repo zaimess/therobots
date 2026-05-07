@@ -24,13 +24,13 @@ FL_phastOffSset = 0
 mforce = 500
 
 # Number of Generations
-numberOfGenerations = 150
+numberOfGenerations = 1000
 
 # Population Size
-populationSize = 5
+populationSize = 10
 
 # Neuron Amounts
-numSensorNeurons = 4
+numSensorNeurons = 5
 numMotorNeurons = 8
 
 # Leg Amounts
@@ -39,3 +39,6 @@ numLowerLegs = 4
 
 # Motor Joint Range
 motorJointRange = .7
+
+# Body Evolution Switch
+evolveBody = True
